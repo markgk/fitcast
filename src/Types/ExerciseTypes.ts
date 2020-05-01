@@ -63,12 +63,11 @@ export enum Measurement {
 // If the assignment's array is < number of rounds, repeat last value in array
 export interface Assignment {
   exercise: string[]; // exercise UID
-  measurement: Measurement[];
   duration?: number[]; // seconds
   reps?: number[];
   breaths?: number[];
   weight?: number[];
-  isMax?: boolean[]; // To be combined with Measurement enum. Max duration, max reps, etc.
+  max?: Measurement[]; // Max duration, max reps, etc.
   break?: Break[];
 }
 
