@@ -4,11 +4,14 @@ export interface SoundEffects {
   endOfCount: string[]; // by level endof count, rep, set
 }
 
+export enum MediaType {
+  video,
+  audio,
+}
+
 export interface Media {
-  narrationClip: string;
-  narrationAutio: string;
-  educationalAudio: string;
-  educationalClip: string; // clip id, '' if null
-  images: string[]; // image ids one per count, first one used live
-  soundEffects: SoundEffects;
+  type: MediaType;
+  mediaId: string;
+  images?: string[]; // image ids one per count, first one used live
+  soundEffects?: SoundEffects;
 }
