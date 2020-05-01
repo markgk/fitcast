@@ -58,25 +58,22 @@ export enum Measurement {
   weight,
 }
 
+// Arrays represent the values for different rounds. If a set repeats,
+// it will use the value in the next index for this assignment.
+// If the assignment's array is < number of rounds, repeat last value in array
 export interface Assignment {
-  exercise: string; // exercise UID
-  measurement: Measurement;
-  duration?: number; // seconds
-  reps?: number;
-  breaths?: number;
-  weight?: number;
-  isMax?: boolean; // To be combined with Measurement enum. Max duration, max reps, etc.
-  break?: Break;
-}
-
-// An array of assignments that will be used in order by round for that index in the set
-// If there aren't the right number of rounds, repeat the last index
-export interface Progresson {
-  assignments: Assignments[];
+  exercise: string[]; // exercise UID
+  measurement: Measurement[];
+  duration?: number[]; // seconds
+  reps?: number[];
+  breaths?: number[];
+  weight?: number[];
+  isMax?: boolean[]; // To be combined with Measurement enum. Max duration, max reps, etc.
+  break?: Break[];
 }
 
 export interface Set extends ElementMetaData {
-  assignments: (Assignment | Progression)[];
+  assignments: Assignment[];
   rounds: number; // default to 1
   break: Break; // break at the end of each round
 }
