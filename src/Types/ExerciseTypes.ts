@@ -3,7 +3,6 @@ import { Media } from './MediaTypes';
 interface ElementMetaData {
   name: string;
   description?: string;
-  tags: string[]; // [] for none, references tag UIDs from tags table
   dos?: string[];
   donts?: string[];
   media?: Media; // default media if not specified
@@ -60,21 +59,29 @@ export enum Measurement {
 }
 
 export interface Assignment {
-  exercise: Exercise; //exercise uid
+  exercise: string; // exercise UID
   measurement: Measurement;
   duration?: number; // seconds
   reps?: number;
-  breath?: number;
+  breaths?: number;
+  weight?: number;
   isMax?: boolean; // To be combined with Measurement enum. Max duration, max reps, etc.
-  break: Break;
+  break?: Break;
+}
+
+// An array of assignments that will be used in order by round for that index in the set
+// If there aren't the right number of rounds, repeat the last index
+export interface Progresson {
+  assignments: Assignments[];
 }
 
 export interface Set extends ElementMetaData {
-  assignments: Assignment[];
+  assignments: (Assignment | Progression)[];
   rounds: number; // default to 1
   break: Break; // break at the end of each round
 }
 
 export interface Workout extends ElementMetaData {
   sets: (Set | Break)[];
+  tags: string[]; // [] for none, references tag UIDs from tags table
 }
