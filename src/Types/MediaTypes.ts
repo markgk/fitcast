@@ -5,10 +5,10 @@ export interface SoundEffects {
 }
 
 export interface Media {
-  narClip: string;
-  narAutio: string;
-  eduClip: string; // clip id, '' if null
-  eduAudio: string;
-  images: string[]; // image ids one per count, frist one used live
+  narrationClip: string;
+  narrationAutio: string;
+  educationalAudio: string;
+  educationalClip: string; // clip id, '' if null
+  images: string[]; // image ids one per count, first one used live
   soundEffects: SoundEffects;
 }

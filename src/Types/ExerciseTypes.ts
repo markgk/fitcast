@@ -1,49 +1,80 @@
 import { Media } from './MediaTypes';
 
-interface WorkoutObject {
+interface ElementMetaData {
   name: string;
+  description?: string;
+  tags: string[]; // [] for none, references tag UIDs from tags table
+  dos?: string[];
+  donts?: string[];
+  media?: Media; // default media if not specified
+}
+
+interface Tag {
   uid: string;
-  description: string; // '' for null
-  tags: string[]; // [] for none
-  dos: string[]; // [] for none
-  donts: string[]; // [] for none
-  media: Media; // default meadia if not specified
+  name: string;
 }
 
-export interface Position extends WorkoutObject {
-  count: number; // how long to hold the position, defaulsts to 1
+export interface Position extends ElementMetaData {
+  positionUid: string;
+  count: number; // how long to hold the position in seconds, defaults to 1
 }
 
-export interface Transition extends WorkoutObject {
+export interface Transition extends ElementMetaData {
+  transitionUid: string;
   count: number; // number of steps in transition, defaults ot 1
 }
 
-export interface Move {
+// TODO: Is this the best way to represent this? We run into a fence-post
+// problem like this.
+export interface Movement {
   position: Position;
   transition: Transition;
 }
 
-export interface Equipment extends WorkoutObject {
-  metric: [number, number]; // range of weight, band number, etc
-  unit: string; // lbs for weight, band No. etc..
+export interface Equipment extends ElementMetaData {
+  name: string; // Dumbbell, band, barbell, etc.
+  equipmentUid: string;
+  label?: string; // When resistance isn't a number. Red band, heavy weight, etc.
+  resistance?: {
+    range: [number, number]; // range of weight, band number, etc
+    unit: string; // lbs for weight, band No. etc..
+  };
 }
 
-export interface Exercise extends WorkoutObject {
-  Moves: Move[];
-  equipment: Equipment;
+export interface Exercise extends ElementMetaData {
+  movements: Movement[];
+  equipment?: Equipment;
+  exerciseUid: string;
 }
-export interface Break extends WorkoutObject {
+
+export interface Break {
   duration: number; // duration in seconds, defaults to 120
+  media: Media; // default media if not specified
 }
 
-export interface Set {
-  exercise: string; //exercise uid
-  reps: number; // if 0 go for max
+export enum Measurement {
+  duration,
+  reps,
+  breaths,
+  weight,
+}
+
+export interface Assignment {
+  exercise: Exercise; //exercise uid
+  measurement: Measurement;
+  duration?: number; // seconds
+  reps?: number;
+  breath?: number;
+  isMax?: boolean; // To be combined with Measurement enum. Max duration, max reps, etc.
   break: Break;
 }
 
-export interface Workout extends WorkoutObject {
-  warmUp: Exercise[]; // [] stands for none
-  sets: Set[];
-  warmDown: Exercise[]; // [] stands for none
+export interface Set extends ElementMetaData {
+  assignments: Assignment[];
+  rounds: number; // default to 1
+  break: Break; // break at the end of each round
+}
+
+export interface Workout extends ElementMetaData {
+  sets: (Set | Break)[];
 }
