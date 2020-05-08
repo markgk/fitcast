@@ -1,27 +1,10 @@
-export interface Resources {
-  label: string; // Name to be displayed to the user
-  name: string; // unique id for reference
-  description: string; // '' for null
-  tags: string[]; // [] for none
-  dos: string[]; // [] for none
-  donts: string[]; // [] for none
-  liveClip: string; // naration video
-  liveAudio: string; // naration audio handle
-  queAudio: string; // Audio to be played as a que
-  eduClip: string[]; // clip id, '' if null
-  images: string[]; // image ids one per count, frist one used live
-}
+import { Handle } from './Workout';
 
-export const DEFAULT_RESOURCES: Resources = {
-  label: 'Label',
-  name: 'Name',
-  description: '',
-  tags: [],
-  dos: [],
-  donts: [],
-  liveClip: '',
-  liveAudio: '',
-  queAudio: '',
-  eduClip: [],
-  images: [],
-};
+export interface Resources {
+  name: Handle; // unique id for reference
+  liveClip?: Handle; // naration video
+  liveAudio?: Handle; // naration audio handle
+  queAudio?: string; // Audio to be played as a que
+  perviewClips?: Handle[]; // clip id, '' if null
+  previewImgages: Handle[]; // image ids one per count, frist one used live
+}
